@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Any, List, Union
+from typing import Any, List, Literal, Union
 
 import typer
 from rich import print
@@ -86,6 +86,7 @@ def _run(
     command: str,
     app: Union[str, None] = None,
     proxy_headers: bool = False,
+    ws: Literal["auto", "wsproto", "websockets"] = "auto",
 ) -> None:
     with get_rich_toolkit() as toolkit:
         server_type = "development" if command == "dev" else "production"
@@ -168,6 +169,7 @@ def _run(
             root_path=root_path,
             proxy_headers=proxy_headers,
             log_config=get_uvicorn_log_config(),
+            ws=ws,
         )
 
 
@@ -216,6 +218,12 @@ def dev(
             help="Enable/Disable X-Forwarded-Proto, X-Forwarded-For, X-Forwarded-Port to populate remote address info."
         ),
     ] = True,
+    ws: Annotated[
+        Literal["auto", "wsproto", "websockes"],
+        typer.Option(
+            help="The WebSocket implementation to use. Defaults to [blue]auto[/blue]."
+        ),
+    ] = "auto",
 ) -> Any:
     """
     Run a [bold]FastAPI[/bold] app in [yellow]development[/yellow] mode. 🧪
@@ -251,6 +259,7 @@ def dev(
         app=app,
         command="dev",
         proxy_headers=proxy_headers,
+        ws=ws,
     )
 
 
@@ -305,6 +314,12 @@ def run(
             help="Enable/Disable X-Forwarded-Proto, X-Forwarded-For, X-Forwarded-Port to populate remote address info."
         ),
     ] = True,
+    ws: Annotated[
+        Literal["auto", "wsproto", "websockets"],
+        typer.Option(
+            help="The WebSocket implementation to use. Defaults to [blue]auto[/blue]."
+        ),
+    ] = "auto",
 ) -> Any:
     """
     Run a [bold]FastAPI[/bold] app in [green]production[/green] mode. 🚀
@@ -341,6 +356,7 @@ def run(
         app=app,
         command="run",
         proxy_headers=proxy_headers,
+        ws=ws,
     )
 
 
