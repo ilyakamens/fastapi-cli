@@ -86,7 +86,7 @@ def _run(
     command: str,
     app: Union[str, None] = None,
     proxy_headers: bool = False,
-    ws: Literal["auto", "wsproto", "websockets"] = "auto",
+    ws: str = "auto",
 ) -> None:
     with get_rich_toolkit() as toolkit:
         server_type = "development" if command == "dev" else "production"
@@ -219,9 +219,9 @@ def dev(
         ),
     ] = True,
     ws: Annotated[
-        Literal["auto", "wsproto", "websockes"],
+        str,
         typer.Option(
-            help="The WebSocket implementation to use. Defaults to [blue]auto[/blue]."
+            help="The WebSocket implementation to use. Defaults to [blue]auto[/blue]. Can be [blue]wsproto[/blue] or [blue]websockets[/blue]."
         ),
     ] = "auto",
 ) -> Any:
@@ -315,9 +315,9 @@ def run(
         ),
     ] = True,
     ws: Annotated[
-        Literal["auto", "wsproto", "websockets"],
+        str,
         typer.Option(
-            help="The WebSocket implementation to use. Defaults to [blue]auto[/blue]."
+            help="The WebSocket implementation to use. Defaults to [blue]auto[/blue]. Can be [blue]wsproto[/blue] or [blue]websockets[/blue]."
         ),
     ] = "auto",
 ) -> Any:
